@@ -9,7 +9,7 @@
             :state-text="topText"
             :trigger-distance="_topConfig.triggerDistance"
             :diff="diff">
-        <p class="default-text">{{ topText }}</p>
+        <p class="default-text" v-html="topText"></p>
       </slot>
     </div>
     <div class="scroll-container">
@@ -242,7 +242,7 @@
       },
 
       handleTouchEnd() {
-        if (this.diff === 0) return
+        if (this.diff === 0) return;
         if (this.state === 'trigger') {
           this.actionLoading();
           return;
