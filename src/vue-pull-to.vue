@@ -89,6 +89,12 @@
         default: () => {
           return {};
         }
+      },
+      infiniteScrollDistance: {
+        type: Number,
+        default: () => {
+          return 0;
+        }
       }
     },
     data() {
@@ -188,7 +194,10 @@
       },
 
       checkBottomReached() {
-        return this.scrollEl.scrollTop + this.scrollEl.offsetHeight + 1 >= this.scrollEl.scrollHeight;
+        console.log('infiniteScrollDistance', this.$props.infiniteScrollDistance);
+        const result = this.scrollEl.scrollTop + this.scrollEl.offsetHeight + 1 + this.$props.infiniteScrollDistance >= this.scrollEl.scrollHeight;
+        console.log(result);
+        return result;
       },
 
       handleTouchStart(event) {
