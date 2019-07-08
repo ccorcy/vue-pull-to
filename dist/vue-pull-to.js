@@ -513,10 +513,7 @@ exports.default = {
       }, duration);
     },
     checkBottomReached: function checkBottomReached() {
-      console.log('infiniteScrollDistance', this.$props.infiniteScrollDistance);
-      var result = this.scrollEl.scrollTop + this.scrollEl.offsetHeight + 1 + this.$props.infiniteScrollDistance >= this.scrollEl.scrollHeight;
-      console.log(result);
-      return result;
+      return this.scrollEl.scrollTop + this.scrollEl.offsetHeight + 1 >= this.scrollEl.scrollHeight;
     },
     handleTouchStart: function handleTouchStart(event) {
       this.startY = event.touches[0].clientY;
@@ -575,8 +572,11 @@ exports.default = {
       this.isThrottleScroll ? this.throttleEmitScroll(event) : this.$emit('scroll', event);
       this.throttleOnInfiniteScroll();
     },
+    checkInfiniteScrollDistance: function checkInfiniteScrollDistance() {
+      return this.scrollEl.scrollTop + this.scrollEl.offsetHeight + 1 + this.$props.infiniteScrollDistance >= this.scrollEl.scrollHeight;
+    },
     onInfiniteScroll: function onInfiniteScroll() {
-      if (this.checkBottomReached()) {
+      if (this.checkInfiniteScrollDistance()) {
         this.$emit('infinite-scroll');
       }
     },
@@ -602,7 +602,7 @@ exports.default = {
       this.throttleEmitTopPull = this.throttleEmit(200, 300, 'top-pull');
       this.throttleEmitBottomPull = this.throttleEmit(200, 300, 'bottom-pull');
       this.throttleEmitScroll = this.throttleEmit(100, 150, 'scroll');
-      this.throttleOnInfiniteScroll = (0, _utils.throttle)(this.onInfiniteScroll, 400);
+      this.throttleOnInfiniteScroll = (0, _utils.throttle)(this.onInfiniteScroll, 50);
     },
     init: function init() {
       this.createThrottleMethods();
